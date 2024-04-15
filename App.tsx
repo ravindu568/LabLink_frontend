@@ -1,118 +1,151 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Icon} from 'react-native-paper';
+import UserHomeScreen from "./screens/inner-elements/user/UserHomeScreen.tsx";
+import {NavigationContainer} from "@react-navigation/native";
+import UserDeviceScreen from "./screens/inner-elements/user/UserDeviceScreen.tsx";
+import UserAllProgrammeScreen from "./screens/inner-elements/user/UserAllProgrammeScreen.tsx";
+import UserToDoListScreen from "./screens/inner-elements/user/UserToDoListScreen.tsx";
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import LogInScreen from "./screens/LogInScreen.tsx";
+import SignUpScreen from "./screens/SignUpScreen.tsx";
+import AdminHomeScreen from "./screens/inner-elements/admin/AdminHomeScreen.tsx";
+import AdminDeviceScreen from "./screens/inner-elements/admin/AdminDeviceScreen.tsx";
+import AdminAllProgramme from "./screens/inner-elements/admin/AdminAllProgramme.tsx";
+import AdminToDoList from "./screens/inner-elements/admin/AdminToDoList.tsx";
+import UserScannedDevice from "./screens/inner-elements/user/UserScannedDevice.tsx";
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const Stack=createNativeStackNavigator();
+const Tab=createBottomTabNavigator();
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
+function App():React.JSX.Element{
+  const UserTabNavigator=()=>{
+
+    return(
+      <Tab.Navigator
+        screenOptions={({route})=>({
+          tabBarIcon: ({focused,color,size})=>{
+            let iconName;
+            switch (route.name) {
+              case 'Home':
+                iconName=focused ? 'home':'home';
+                break;
+              case 'DeviceScreen':
+                iconName=focused ? 'wifi':'wifi';
+                break;
+              case 'AllProgrammes':
+                iconName = focused ? 'flask-outline':'flask-outline';
+                break;
+              case 'ToDoList':
+                iconName = focused ? 'clipboard-list':'clipboard-list';
+                break;
+
+            }
+            return <Icon size={30} color={color} source={iconName}/>
           },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
+          tabBarActiveTintColor:'#d35400',
+          tabBarInactiveTintColor:'#bdc3c7',
+        })}
+      >
+
+        <Tab.Screen name="Home" component={UserHomeScreen}
+                    options={{headerShown:false}}
+        />
+        <Tab.Screen name="DeviceScreen" component={UserDeviceScreen}
+                    options={{headerShown:false}}
+        />
+        <Tab.Screen name="AllProgrammes" component={UserAllProgrammeScreen}
+                    options={{headerShown:false}}
+        />
+        <Tab.Screen name="ToDoList" component={UserToDoListScreen}
+                    options={{headerShown:false}}
+        />
+
+
+      </Tab.Navigator>
+    )
+  };
+  const AdminTabNavigator=()=>{
+
+    return(
+      <Tab.Navigator
+        screenOptions={({route})=>({
+          tabBarIcon: ({focused,color,size})=>{
+            let iconName;
+            switch (route.name) {
+              case 'Home':
+                iconName=focused ? 'home':'home';
+                break;
+              case 'DeviceScreen':
+                iconName=focused ? 'wifi':'wifi';
+                break;
+              case 'AllProgrammes':
+                iconName = focused ? 'flask-outline':'flask-outline';
+                break;
+              case 'ToDoList':
+                iconName = focused ? 'clipboard-list':'clipboard-list';
+                break;
+
+            }
+            return <Icon size={30} color={color} source={iconName}/>
           },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+          tabBarActiveTintColor:'#d35400',
+          tabBarInactiveTintColor:'#bdc3c7',
+        })}
+      >
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+        <Tab.Screen name="Home" component={AdminHomeScreen}
+                    options={{headerShown:false}}
+        />
+        <Tab.Screen name="DeviceScreen" component={AdminDeviceScreen}
+                    options={{headerShown:false}}
+        />
+        <Tab.Screen name="AllProgrammes" component={AdminAllProgramme}
+                    options={{headerShown:false}}
+        />
+        <Tab.Screen name="ToDoList" component={AdminToDoList}
+                    options={{headerShown:false}}
+        />
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+
+      </Tab.Navigator>
+    )
   };
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+  return(
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="LogInScreen"
+          component={LogInScreen}
+          options={{headerShown:false}}
+        />
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+        <Stack.Screen
+          name="SignUpScreen"
+          component={SignUpScreen}
+          options={{headerShown:false}}
+        />
+
+        <Stack.Screen
+          name="UserHomeScreen"
+          component={UserTabNavigator}
+          options={{headerShown:false}}
+        />
+        <Stack.Screen
+          name="AdminHomeScreen"
+          component={AdminTabNavigator}
+          options={{headerShown:false}}
+        />
+        <Stack.Screen
+          name="UserScannedDevice"
+          component={UserScannedDevice}
+          options={{headerShown:false}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
 
 export default App;
